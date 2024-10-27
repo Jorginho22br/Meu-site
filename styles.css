@@ -1,0 +1,171 @@
+/* Estilização do Cabeçalho */
+header {
+    background: #007bff;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .logo h1 {
+    font-size: 24px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Estilização do Banner */
+.banner {
+    background: #0056b3;
+    color: #fff;
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.banner .btn, .welcome .btn {
+    background: #28a745; /* Cor do botão */
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 20px;
+    display: inline-block;
+}
+
+.banner .btn:hover, .welcome .btn:hover {
+    background: #218838; /* Cor do botão ao passar o mouse */
+}
+
+/* Estilização da Imagem no Banner */
+.banner-image {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilização da Seção de Planos */
+.plans {
+    padding: 20px;
+    text-align: center;
+}
+
+.plans h2 {
+    margin-bottom: 20px;
+}
+
+.plan-item {
+    display: inline-block;
+    width: 30%;
+    margin: 10px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.plan-item h3 {
+    margin-bottom: 10px;
+}
+
+/* Estilo para os preços */
+.plan-item p {
+    font-size: 18px; /* Ajuste de tamanho */
+    font-weight: bold;
+    width: 80px; /* Define uma largura fixa */
+    margin: 0 auto 10px; /* Centraliza o preço */
+    text-align: center;
+}
+
+.plan-item button {
+    padding: 10px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.plan-item button:hover {
+    background: #0056b3;
+}
+
+/* Estilização da Seção de Contato */
+.contact {
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+.contact h2 {
+    margin-bottom: 20px;
+}
+
+.contact label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.contact input, .contact textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.contact button {
+    background: #28a745;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.contact button:hover {
+    background: #218838;
+}
+
+/* Estilização do Rodapé */
+footer {
+    background: #343a40;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Estilização dos Botões de Entrar e Voltar */
+.welcome .btn, .back-button .btn {
+    background: #007bff; /* Cor do botão */
+    color: #fff;
+    padding: 12px 25px; /* Mais padding para maior área clicável */
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 20px;
+    display: inline-block;
+    font-size: 16px; /* Aumenta o tamanho da fonte */
+}
+
+.welcome .btn:hover, .back-button .btn:hover {
+    background: #0056b3; /* Cor ao passar o mouse */
+}
