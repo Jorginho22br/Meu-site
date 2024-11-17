@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot WhatsApp - Efeito Natalino</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        .snow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .snowflake {
+            position: absolute;
+            color: white;
+            font-size: 24px;
+            opacity: 0.8;
+            user-select: none;
+            z-index: 9999;
+            animation: snow 10s linear infinite;
+        }
+        @keyframes snow {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        /* Cabeçalho e navegação */
+        header {
+            background-color: #008CBA;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        header .logo h1 {
+            margin: 0;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Banner */
+        .banner {
+            background-color: #ff4f58;
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+        }
+        .banner h2 {
+            font-size: 2.5em;
+        }
+        .banner p {
+            font-size: 1.2em;
+        }
+        .banner .banner-image {
+            width: 80%;
+            max-width: 600px;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+        .banner .btn {
+            display: inline-block;
+            background-color: #ffbf00;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .banner .btn:hover {
+            background-color: #ff9500;
+        }
+
+        /* Rodapé */
+        footer {
+            text-align: center;
+            background-color: #333;
+            color: white;
+            padding: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Contêiner de neve -->
+    <div class="snow"></div>
+
+    <!-- Cabeçalho -->
+    <header>
+        <div class="logo">
+            <h1>Bot WhatsApp - Efeito Natalino</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Bem-vindo</a></li>
+                <li><a href="temos.html">Temos</a></li> <!-- Novo item "Temos" -->
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Banner -->
+    <section class="banner">
+        <h2>Cresça seu grupo com um Bot de WhatsApp!</h2>
+        <p>Divirta-se criando figurinhas, puxando músicas e interagindo com nossos comandos personalizados!</p>
+        <img src="img/plunderer.jpg" alt="Atendimento com Bot de WhatsApp" class="banner-image">
+        <a href="1.html" class="btn">Confira nossos planos</a>
+    </section>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>&copy; 2024 Bot WhatsApp. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Script JavaScript para neve -->
+    <script src="snow.js"></script>
+    <script>
+        // Gerar flocos de neve
+        const snowContainer = document.querySelector('.snow');
+        const numberOfSnowflakes = 50;
+
+        for (let i = 0; i < numberOfSnowflakes; i++) {
+            let snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.textContent = '❄';
+            snowflake.style.left = `${Math.random() * 100}vw`;
+            snowflake.style.animationDuration = `${Math.random() * 5 + 5}s`; // Tempo de animação aleatório
+            snowflake.style.animationDelay = `${Math.random() * 5}s`; // Atraso na animação
+            snowContainer.appendChild(snowflake);
+        }
+    </script>
+</body>
+</html>

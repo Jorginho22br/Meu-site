@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <section class="plans">
+        <h2>Escolha seu Plano</h2>
+
+        <div class="plan-item" id="plan7">
+            <h3>7 Dias</h3>
+            <p class="emoji-title">🤖</p> <!-- Título com emoji -->
+            <p class="price">R$ 4,00</p>
+            <p>Teste nosso serviço por uma semana.</p>
+            <a href="tabela.html?preco=4.00&plano=7dias" class="btn">Comprar</a>
+        </div>
+
+        <div class="plan-item" id="plan15">
+            <h3>15 Dias</h3>
+            <p class="emoji-title">🤖</p> <!-- Título com emoji -->
+            <p class="price">R$ 7,00</p>
+            <p>Perfeito para pequenos negócios.</p>
+            <a href="tabela.html?preco=7.00&plano=15dias" class="btn">Comprar</a>
+        </div>
+
+        <div class="plan-item" id="plan30">
+            <h3>30 Dias</h3>
+            <p class="emoji-title">🤖</p> <!-- Título com emoji -->
+            <p class="price">R$ 10,00</p>
+            <p>O melhor custo-benefício!</p>
+            <a href="tabela.html?preco=10.00&plano=30dias" class="btn">Comprar</a>
+        </div>
+
+        <!-- Seção para inserir código de desconto -->
+        <div class="discount-section">
+            <h3>Tem um código de desconto?</h3>
+            <form id="discountForm">
+                <input type="text" id="discountCode" placeholder="Digite seu código" />
+                <button type="submit" class="btn">Aplicar</button>
+            </form>
+            <p id="discountMessage"></p>
+        </div>
+    </section>
+
+    <script>
+        // Função para aplicar o desconto e redirecionar para a tabela
+        document.getElementById('discountForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Impede o envio do formulário
+
+            const discountCode = document.getElementById('discountCode').value;
+            const discountMessage = document.getElementById('discountMessage');
+            let discount = 0;
+
+            // Verificar se o código de desconto é válido
+            if (discountCode === "PROMO5") {
+                discount = 0.05; // 5% de desconto
+                discountMessage.textContent = "Desconto de 5% aplicado!";
+                discountMessage.style.color = "green";
+            } else if (discountCode === "PROMO15") {
+                discount = 0.15; // 15% de desconto
+                discountMessage.textContent = "Desconto de 15% aplicado!";
+                discountMessage.style.color = "green";
+            } else {
+                discountMessage.textContent = "Código inválido.";
+                discountMessage.style.color = "red";
+                return; // Não aplica desconto se o código for inválido
+            }
+
+            // Atualizar as URLs dos links "Comprar" com o novo preço com desconto
+            const updatedLinks = document.querySelectorAll('.btn');
+            updatedLinks.forEach(link => {
+                const originalPrice = parseFloat(link.getAttribute('href').match(/preco=(\d+\.\d+)/)[1]);
+                const discountedPrice = originalPrice * (1 - discount);
+                link.href = link.href.replace(/preco=\d+\.\d+/, `preco=${discountedPrice.toFixed(2)}`);
+            });
+        });
+    </script>
+</body>
+</html>
