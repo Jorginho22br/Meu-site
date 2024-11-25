@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bot WhatsApp</title>
+    <meta name="description" content="Bot de WhatsApp para gerenciar grupos, criar figurinhas e muito mais com comandos personalizados. Confira nossos planos!">
+    <title>Bot WhatsApp - Natal</title>
     <link rel="stylesheet" href="styles.css">
     <style>
+        /* Estilos Gerais */
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f8ff;
@@ -14,6 +16,15 @@
             padding: 0;
             overflow-x: hidden;
         }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Neve */
         .snow {
             position: fixed;
             top: 0;
@@ -28,37 +39,45 @@
             font-size: 24px;
             opacity: 0.8;
             user-select: none;
-            z-index: 9999;
             animation: snow 10s linear infinite;
         }
         @keyframes snow {
-            to {
-                transform: translateY(100vh);
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
             }
         }
 
-        /* Cabeçalho e navegação */
+        /* Cabeçalho */
         header {
             background-color: #008CBA;
             color: white;
-            padding: 10px 20px;
+            padding: 15px 20px;
             text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         header .logo h1 {
             margin: 0;
+            font-size: 1.8em;
         }
         nav ul {
-            list-style-type: none;
+            list-style: none;
             padding: 0;
-        }
-        nav ul li {
-            display: inline;
-            margin-right: 20px;
+            margin: 10px 0 0 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
         }
         nav ul li a {
-            text-decoration: none;
             color: white;
             font-weight: bold;
+            font-size: 1em;
+            transition: color 0.3s;
+        }
+        nav ul li a:hover {
+            color: #ffd700;
         }
 
         /* Banner */
@@ -70,38 +89,65 @@
         }
         .banner h2 {
             font-size: 2.5em;
+            margin-bottom: 10px;
         }
         .banner p {
             font-size: 1.2em;
+            line-height: 1.6;
         }
         .banner .banner-image {
             width: 80%;
             max-width: 600px;
             margin-top: 20px;
             border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         .banner .btn {
             display: inline-block;
-            background-color: #ffbf00;
-            color: white;
+            background-color: #ffd700;
+            color: #333;
             padding: 15px 30px;
             font-size: 1.2em;
-            text-decoration: none;
+            font-weight: bold;
             border-radius: 5px;
             margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.2s;
         }
         .banner .btn:hover {
             background-color: #ff9500;
+            transform: scale(1.05);
         }
 
         /* Rodapé */
         footer {
-            text-align: center;
             background-color: #333;
             color: white;
-            padding: 10px;
+            text-align: center;
+            padding: 15px;
+            font-size: 0.9em;
+            margin-top: 20px;
         }
 
+        /* Responsividade */
+        @media (max-width: 768px) {
+            header .logo h1 {
+                font-size: 1.5em;
+            }
+            nav ul li a {
+                font-size: 0.9em;
+            }
+            .banner h2 {
+                font-size: 2em;
+            }
+            .banner p {
+                font-size: 1em;
+            }
+            .banner .btn {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+        }
     </style>
 </head>
 <body>
@@ -115,8 +161,9 @@
         </div>
         <nav>
             <ul>
-                <li><a href="index.html">Bem-vindo</a></li>
-                <li><a href="temos.html">Temos</a></li> <!-- Novo item "Temos" -->
+                <li><a href="index.html">Início</a></li>
+                <li><a href="temos.html">O que temos</a></li>
+                <li><a href="planos.html">Planos</a></li>
             </ul>
         </nav>
     </header>
@@ -126,7 +173,7 @@
         <h2>Cresça seu grupo com um Bot de WhatsApp!</h2>
         <p>Divirta-se criando figurinhas, puxando músicas e interagindo com nossos comandos personalizados!</p>
         <img src="plunderer.jpg" alt="Atendimento com Bot de WhatsApp" class="banner-image">
-        <a href="1.html" class="btn">Confira nossos planos</a>
+        <a href="planos.html" class="btn">Confira nossos planos</a>
     </section>
 
     <!-- Rodapé -->
@@ -135,19 +182,18 @@
     </footer>
 
     <!-- Script JavaScript para neve -->
-    <script src="snow.js"></script>
     <script>
-        // Gerar flocos de neve
         const snowContainer = document.querySelector('.snow');
         const numberOfSnowflakes = 50;
 
         for (let i = 0; i < numberOfSnowflakes; i++) {
-            let snowflake = document.createElement('div');
+            const snowflake = document.createElement('div');
             snowflake.classList.add('snowflake');
             snowflake.textContent = '❄';
             snowflake.style.left = `${Math.random() * 100}vw`;
-            snowflake.style.animationDuration = `${Math.random() * 5 + 5}s`; // Tempo de animação aleatório
-            snowflake.style.animationDelay = `${Math.random() * 5}s`; // Atraso na animação
+            snowflake.style.animationDuration = `${Math.random() * 5 + 5}s`;
+            snowflake.style.animationDelay = `${Math.random() * 5}s`;
+            snowflake.style.fontSize = `${Math.random() * 10 + 15}px`;
             snowContainer.appendChild(snowflake);
         }
     </script>
