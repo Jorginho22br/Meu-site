@@ -3,13 +3,13 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #1e3c72, #2a5298, #4a90e2);
+    background: linear-gradient(135deg, #ff4d4d, #ff0000, #e60000);
     background-size: 300% 300%;
     animation: moveBackground 12s ease-in-out infinite;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* Usado min-height ao invés de height */
+    min-height: 100vh;
     color: #fff;
     flex-direction: column;
 }
@@ -29,13 +29,14 @@ body {
     text-align: center;
     padding: 25px;
     border-radius: 15px;
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(255, 255, 255, 0.9);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     width: 100%;
     max-width: 850px;
     margin: 20px;
     backdrop-filter: blur(5px);
     transition: transform 0.3s ease;
+    color: #ff0000; /* Texto vermelho */
 }
 
 .plans:hover {
@@ -47,30 +48,31 @@ h2 {
     font-size: 40px;
     margin-bottom: 20px;
     text-transform: uppercase;
-    color: #ffd700; /* Cor ouro */
+    color: #ff0000; /* Vermelho forte */
     letter-spacing: 1.5px;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
 }
 
 /* Estilização das opções de plano */
 .plan-item {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 0, 0, 0.15);
     padding: 20px;
     margin: 15px 0;
     border-radius: 10px;
     transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
+    color: #ff0000;
 }
 
 .plan-item:hover {
     transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 0, 0, 0.2);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .plan-item h3 {
     font-size: 28px;
     margin-bottom: 10px;
-    color: #ffdb58;
+    color: #ff4d4d; /* Vermelho claro */
     text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
 }
 
@@ -78,12 +80,13 @@ h2 {
     font-size: 18px;
     margin-bottom: 15px;
     line-height: 1.4;
+    color: #800000; /* Vermelho escuro */
 }
 
 .price {
     font-size: 26px;
     font-weight: bold;
-    color: #7fffd4;
+    color: #ff0000;
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
 }
 
@@ -96,8 +99,8 @@ h2 {
 
 /* Estilização do Botão */
 .btn {
-    background-color: #ff6f61;
-    color: #fff;
+    background-color: #ffffff;
+    color: #ff0000;
     border: none;
     padding: 15px 30px;
     text-align: center;
@@ -107,33 +110,34 @@ h2 {
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1.2px;
-    box-shadow: 0 6px 12px rgba(255, 111, 97, 0.3);
+    box-shadow: 0 6px 12px rgba(255, 0, 0, 0.3);
     transition: all 0.3s ease;
 }
 
 .btn:hover {
-    background-color: #ff4500;
+    background-color: #ffcccc;
     transform: scale(1.05);
-    box-shadow: 0 8px 16px rgba(255, 111, 97, 0.5);
+    box-shadow: 0 8px 16px rgba(255, 0, 0, 0.5);
 }
 
 .btn:focus {
     outline: none;
-    box-shadow: 0 0 10px rgba(255, 111, 97, 0.7);
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
 }
 
 .btn:active {
     transform: scale(0.98);
-    box-shadow: 0 4px 8px rgba(255, 111, 97, 0.2);
+    box-shadow: 0 4px 8px rgba(255, 0, 0, 0.2);
 }
 
 /* Seção de Desconto */
 .discount-section {
     margin-top: 30px;
     padding: 20px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    color: #ff0000;
 }
 
 #discountCode {
@@ -143,19 +147,19 @@ h2 {
     margin-right: 10px;
     border-radius: 5px;
     border: none;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 0, 0, 0.2);
     color: #fff;
 }
 
 #discountCode::placeholder {
-    color: #ddd;
+    color: #ffcccc;
 }
 
 #discountMessage {
     margin-top: 15px;
     font-size: 20px;
     font-weight: bold;
-    color: #ffd700;
+    color: #ff4d4d;
 }
 
 /* Estilos para dispositivos móveis */
