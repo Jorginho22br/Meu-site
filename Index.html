@@ -29,10 +29,14 @@
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
             max-width: 400px;
             width: 100%;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards, slideUp 1s ease-out forwards;
         }
 
         .image-container {
             margin-bottom: 30px;
+            opacity: 0;
+            animation: slideIn 1s ease-out 0.5s forwards;
         }
 
         img {
@@ -45,6 +49,8 @@
             font-size: 24px;
             color: #333;
             margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.5s forwards;
         }
 
         button {
@@ -56,10 +62,30 @@
             cursor: pointer;
             border-radius: 5px;
             transition: background-color 0.3s ease;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1s forwards;
         }
 
         button:hover {
             background-color: darkred;
+        }
+
+        /* Animação de fade-in */
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Animação de deslizar para cima */
+        @keyframes slideUp {
+            0% { transform: translateY(30px); }
+            100% { transform: translateY(0); }
+        }
+
+        /* Animação da imagem deslizando */
+        @keyframes slideIn {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
         }
 
         /* Fundo vermelho */
