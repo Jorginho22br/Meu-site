@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Sensibilidade</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 220px;
+            display: block;
+            margin: 15px auto;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .resultado {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background: #ddd;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        li:hover {
+            background: #bbb;
+        }
+        .instagram {
+            margin-top: 30px;
+            font-size: 18px;
+        }
+        .instagram a {
+            text-decoration: none;
+            color: #e4405f;
+            font-weight: bold;
+        }
+        hr {
+            width: 50%;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Gerador de Sensibilidade</h2>
+
+        <button onclick="gerarSensi()">🔥 Gerar Sensibilidade</button>
+
+        <hr> <!-- Linha separadora -->
+
+        <button onclick="mostrarMarcas()">📱 Marcas de Celulares</button>
+
+        <div class="resultado" id="resultado"></div>
+        <div class="resultado" id="marcasCelulares"></div>
+    </div>
+
+    <div class="instagram">
+        <p>Me siga no Instagram: <a href="https://www.instagram.com/jorginho_22br" target="_blank">📷 aqui</a></p>
+    </div>
+
+    <script>
+        function gerarNumero(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function gerarSensi() {
+            let sensibilidade = {
+                geral: gerarNumero(100, 200),
+                redDot: gerarNumero(20, 100),
+                mira2x: gerarNumero(100, 200),
+                mira4x: gerarNumero(100, 200),
+                miraAWM: gerarNumero(20, 100),
+                dpi: gerarNumero(360, 844) // Adicionando a geração de DPI
+            };
+
+            let resultado = `
+                <p><strong>Geral:</strong> ${sensibilidade.geral}</p>
+                <p><strong>Red Dot:</strong> ${sensibilidade.redDot}</p>
+                <p><strong>Mira 2x:</strong> ${sensibilidade.mira2x}</p>
+                <p><strong>Mira 4x:</strong> ${sensibilidade.mira4x}</p>
+                <p><strong>Mira AWM:</strong> ${sensibilidade.miraAWM}</p>
+                <p><strong>DPI:</strong> ${sensibilidade.dpi}</p> <!-- Exibindo o DPI -->
+            `;
+
+            document.getElementById("resultado").innerHTML = resultado;
+        }
+
+        function mostrarMarcas() {
+            let marcas = [
+                { nome: "Samsung", link: "sansung.html" },
+                { nome: "Xiaomi", link: "xiaomi.html" },
+                { nome: "iPhone❌" },
+                { nome: "Motorola❌" },
+                { nome: "Asus❌" },
+                { nome: "Realme❌" },
+                { nome: "Oppo❌" },
+                { nome: "Vivo❌" },
+                { nome: "Huawei❌" }
+            ];
+
+            let lista = "<ul>";
+            marcas.forEach(marca => {
+                if (marca.link) {
+                    lista += `<li onclick="redirecionar('${marca.link}')">${marca.nome}</li>`;
+                } else {
+                    lista += `<li onclick="selecionarMarca('${marca.nome}')">${marca.nome}</li>`;
+                }
+            });
+            lista += "</ul>";
+
+            document.getElementById("marcasCelulares").innerHTML = lista;
+        }
+
+        function redirecionar(url) {
+            window.location.href = url;
+        }
+
+        function selecionarMarca(marca) {
+            alert(`Você selecionou: ${marca}`);
+        }
+    </script>
+</body>
+</html>
