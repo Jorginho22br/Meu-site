@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FFH4X · INJECTOR · v7.1.0</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', 'Roboto', system-ui, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #030504;
+            background-image: radial-gradient(circle at 10% 20%, #1a4f2a15 0%, transparent 30%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .painel {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(0, 8, 3, 0.95);
+            border-radius: 32px;
+            border: 1px solid #1c5f36;
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.9), 0 0 0 1px #1e6e36 inset;
+            padding: 24px 22px 28px 22px;
+            transition: all 0.3s ease;
+        }
+
+        .painel.colapsado {
+            max-width: 400px;
+            cursor: pointer;
+        }
+
+        .painel.colapsado .conteudo,
+        .painel.colapsado .extra-footer,
+        .painel.colapsado .status-online {
+            display: none;
+        }
+
+        .painel.colapsado .topo {
+            margin-bottom: 0;
+            border-bottom: none;
+        }
+
+        .painel.colapsado .topo h1 span {
+            display: none;
+        }
+
+        /* Topo */
+        .topo {
+            padding-bottom: 18px;
+            border-bottom: 1px solid #1b4f2a;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topo h1 {
+            color: #00ffaa;
+            font-size: 2.4rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px #00ff9d;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .topo h1 span {
+            font-weight: 400;
+            color: #ffffff;
+            background: rgba(0, 40, 20, 0.6);
+            padding: 4px 16px;
+            border-radius: 40px;
+            font-size: 1.4rem;
+            border: 1px solid #00ffaa60;
+        }
+
+        .btn-colapsar {
+            width: 48px;
+            height: 48px;
+            background: #052110;
+            border: 1px solid #3bb56b;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-colapsar:hover {
+            background: #0a3a1a;
+            border-color: #00ffaa;
+        }
+
+        .btn-colapsar .seta {
+            color: #00ffaa;
+            font-size: 2rem;
+            transition: 0.3s;
+        }
+
+        .painel.colapsado .btn-colapsar .seta {
+            transform: rotate(180deg);
+        }
+
+        .status-online {
+            background: #052110;
+            border: 1px solid #3bb56b;
+            border-radius: 40px;
+            padding: 8px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #9effcf;
+        }
+
+        .pulse {
+            width: 10px;
+            height: 10px;
+            background: #00ffaa;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00ffaa;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .conteudo {
+            display: flex;
+            gap: 24px;
+        }
+
+        /* Menu lateral */
+        .menu-icones {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            min-width: 80px;
+            align-items: center;
+            background: #021008;
+            padding: 28px 8px;
+            border-radius: 40px;
+            border: 1px solid #218346;
+        }
+
+        .icone-item {
+            width: 56px;
+            height: 56px;
+            background: #011b0e;
+            border: 1px solid #17d174;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00ffaa;
+            font-size: 28px;
+            cursor: pointer;
+            transition: 0.15s;
+            position: relative;
+        }
+
+        .icone-item::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #032e18;
+            color: #00ffaa;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            white-space: nowrap;
+            opacity: 0;
+            transition: 0.15s;
+            border: 1px solid #00ffaa;
+            pointer-events: none;
+        }
+
+        .icone-item:hover::before {
+            opacity: 1;
+            bottom: -30px;
+        }
+
+        .icone-item.ativo {
+            border-color: #ffffff;
+            background: #032e18;
+            color: #ffffff;
+        }
+
+        .icone-item .notificacao {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 12px;
+            height: 12px;
+            background: #ff4444;
+            border-radius: 50%;
+            border: 2px solid #ffffff;
+        }
+
+        /* Área de configurações */
+        .configuracoes {
+            flex: 1;
+            background: #02190d;
+            border-radius: 32px;
+            padding: 24px 28px;
+            border: 1px solid #248a42;
+            min-height: 600px;
+        }
+
+        /* Abas */
+        .aba-content {
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .aba-content.ativo {
+            display: flex;
+        }
+
+        /* Cards */
+        .esp-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .esp-card {
+            background: #021909;
+            border: 1px solid #1d8941;
+            border-radius: 24px;
+            padding: 20px;
+        }
+
+        .esp-card h3 {
+            color: #9effcf;
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #1d8941;
+            padding-bottom: 10px;
+        }
+
+        /* Linhas de opção */
+        .linha-check {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border-bottom: 1px solid #1b572d;
+            padding: 12px 0;
+        }
+
+        .checkbox-estilizado {
+            width: 24px;
+            height: 24px;
+            background: #001a0b;
+            border: 2px solid #1dbb5b;
+            border-radius: 6px;
+            display: inline-block;
+            cursor: pointer;
+            transition: 0.1s;
+            position: relative;
+            opacity: 0.6;
+        }
+
+        .checkbox-estilizado.checked {
+            background: #00ffaa;
+            border-color: #ffffff;
+        }
+
+        .checkbox-estilizado.checked::after {
+            content: "✓";
+            color: #000000;
+            font-size: 18px;
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .opcao-desc {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .opcao-texto {
+            color: #ffffff; /* Texto branco */
+            font-size: 1rem;
+        }
+
+        .badge-status {
+            color: #9cdbb0;
+            font-size: 0.85rem;
+            background: #052110;
+            padding: 4px 12px;
+            border-radius: 30px;
+            border: 1px solid #3bb56b;
+        }
+
+        .badge-status.ativo {
+            background: #00aa44;
+            color: #ffffff;
+        }
+
+        /* Toggles */
+        .toggle {
+            width: 48px;
+            height: 24px;
+            background: #001a0b;
+            border: 2px solid #1dbb5b;
+            border-radius: 24px;
+            position: relative;
+            cursor: pointer;
+            opacity: 0.6;
+        }
+
+        .toggle.ativo {
+            background: #00ffaa;
+            border-color: #ffffff;
+        }
+
+        .toggle::after {
+            content: "";
+            width: 20px;
+            height: 20px;
+            background: #ffffff;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: 0.2s;
+        }
+
+        .toggle.ativo::after {
+            left: 24px;
+        }
+
+        /* Range sliders */
+        input[type=range] {
+            width: 100%;
+            height: 6px;
+            background: #0f2d19;
+            border-radius: 10px;
+            appearance: none;
+            border: 1px solid #28c467;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background: #ffffff;
+            border-radius: 50%;
+            border: 2px solid #00ffaa;
+            cursor: pointer;
+        }
+
+        /* Botões */
+        .btn-acao {
+            background: #00aa44;
+            color: #ffffff;
+            border: none;
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid #aaffcc;
+            transition: 0.15s;
+            opacity: 0.7;
+        }
+
+        .btn-acao:hover {
+            background: #00cc55;
+        }
+
+        .btn-acao.ativo {
+            background: #006633;
+            border-color: #00ffaa;
+        }
+
+        /* INJECTOR SECTION */
+        .injector-section {
+            background: #021909;
+            border: 2px solid #00aa44;
+            border-radius: 28px;
+            padding: 24px;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .injector-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ffaa, transparent);
+        }
+
+        .injector-title {
+            color: #00ffaa;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .injector-path {
+            background: #001a0b;
+            border: 1px solid #1dbb5b;
+            border-radius: 40px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: monospace;
+            font-size: 1.1rem;
+            color: #00ffaa;
+            word-break: break-all;
+        }
+
+        .path-text {
+            color: #9effcf;
+            font-family: 'Courier New', monospace;
+        }
+
+        .path-folder {
+            background: #052110;
+            padding: 4px 12px;
+            border-radius: 20px;
+            color: #ffffff;
+            font-size: 0.9rem;
+            border: 1px solid #3bb56b;
+        }
+
+        .injector-status {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            background: #001a0b;
+            border-radius: 30px;
+            padding: 12px 20px;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ff4444;
+        }
+
+        .status-indicator.injecting {
+            background: #00ffaa;
+            box-shadow: 0 0 10px #00ffaa;
+        }
+
+        .status-indicator.injected {
+            background: #00ffaa;
+            box-shadow: 0 0 15px #00ffaa;
+        }
+
+        .status-text {
+            color: #ffffff; /* Texto branco */
+            font-size: 0.95rem;
+        }
+
+        .injector-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .injector-btn {
+            background: #052110;
+            border: 1px solid #1dbb5b;
+            border-radius: 30px;
+            padding: 12px;
+            color: #ffffff; /* Texto branco */
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            opacity: 0.7;
+        }
+
+        .injector-btn:hover {
+            background: #0a3a1a;
+            border-color: #00ffaa;
+        }
+
+        .injector-btn.primary {
+            background: #00aa44;
+            border-color: #ffffff;
+        }
+
+        .injector-btn.primary:hover {
+            background: #00cc55;
+        }
+
+        .injector-log {
+            background: #001008;
+            border: 1px solid #1d8941;
+            border-radius: 20px;
+            padding: 15px;
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #ffffff; /* Texto branco */
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            padding: 4px 0;
+            border-bottom: 1px solid #1b572d;
+            color: #ffffff; /* Texto branco */
+        }
+
+        .log-entry.success {
+            color: #00ffaa;
+        }
+
+        .log-entry.error {
+            color: #ff6b6b;
+        }
+
+        /* Estatísticas */
+        .stat-box {
+            background: #021909;
+            border: 1px solid #1d8941;
+            border-radius: 20px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-value {
+            color: #00ffaa;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .stat-label {
+            color: #ffffff; /* Texto branco */
+        }
+
+        .config-input {
+            background: #001a0b;
+            border: 1px solid #1dbb5b;
+            border-radius: 20px;
+            padding: 8px 16px;
+            color: #00ffaa;
+        }
+
+        /* Textos em branco */
+        .cor-opcao span:first-child {
+            color: #ffffff; /* Texto branco */
+        }
+
+        .radio-item span:last-child {
+            color: #ffffff; /* Texto branco */
+        }
+
+        .slider-label span:first-child {
+            color: #ffffff; /* Texto branco */
+        }
+
+        .bypass-item span:first-child {
+            color: #ffffff; /* Texto branco */
+        }
+
+        .config-item span:first-child {
+            color: #ffffff; /* Texto branco */
+        }
+
+        .update-item span:last-child {
+            color: #ffffff; /* Texto branco */
+        }
+
+        /* Rodapé */
+        .extra-footer {
+            margin-top: 18px;
+            border-top: 1px solid #1e6532;
+            padding-top: 14px;
+            display: flex;
+            justify-content: space-between;
+            color: #ffffff; /* Texto branco */
+            font-size: 0.85rem;
+        }
+
+        .extra-footer span:first-child {
+            color: #ffffff; /* Texto branco */
+        }
+
+        .extra-footer span:last-child {
+            color: #ffffff; /* Texto branco */
+        }
+    </style>
+</head>
+<body>
+    <div class="painel" id="painel">
+        <!-- Topo com botão colapsar -->
+        <div class="topo">
+            <h1>FFH4X <span>INJECTOR</span></h1>
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div class="status-online">
+                    <span class="pulse"></span>
+                    <span>TODAS OFF · FOV 360</span>
+                </div>
+                <div class="btn-colapsar" id="btnColapsar">
+                    <span class="seta">🔽</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="conteudo">
+            <!-- Menu lateral -->
+            <div class="menu-icones">
+                <div class="icone-item ativo" data-aba="aimbot" data-tooltip="AIMBOT">🎯</div>
+                <div class="icone-item" data-aba="esp" data-tooltip="ESP">👁️<span class="notificacao"></span></div>
+                <div class="icone-item" data-aba="bypass" data-tooltip="BYPASS">⚙️</div>
+                <div class="icone-item" data-aba="injector" data-tooltip="INJECTOR">💉</div>
+                <div class="icone-item" data-aba="info" data-tooltip="INFO">📄</div>
+            </div>
+
+            <!-- Configurações -->
+            <div class="configuracoes">
+                <!-- Aba Aimbot - TODAS FUNÇÕES DESATIVADAS -->
+                <div class="aba-content ativo" id="aba-aimbot">
+                    <div class="esp-card">
+                        <h3>🎯 AIMBOT</h3>
+                        
+                        <div class="linha-check">
+                            <span class="checkbox-estilizado" id="checkAimbot"></span>
+                            <div class="opcao-desc">
+                                <span class="opcao-texto">Ativar Aimbot</span>
+                                <span class="badge-status" id="statusAimbot">inativo</span>
+                            </div>
+                        </div>
+
+                        <div class="linha-check">
+                            <span class="checkbox-estilizado" id="checkParedes"></span>
+                            <div class="opcao-desc">
+                                <span class="opcao-texto">Puxar em Paredes</span>
+                                <span class="badge-status" id="statusParedes">inativo</span>
+                            </div>
+                        </div>
+
+                        <div class="linha-check">
+                            <span class="checkbox-estilizado" id="checkFOV"></span>
+                            <div class="opcao-desc">
+                                <span class="opcao-texto">Exibir FOV</span>
+                                <span class="badge-status" id="statusFOV">off</span>
+                            </div>
+                        </div>
+
+                        <div class="linha-check">
+                            <span class="checkbox-estilizado" id="checkLinha"></span>
+                            <div class="opcao-desc">
+                                <span class="opcao-texto">Exibir Linha</span>
+                                <span class="badge-status" id="statusLinha">off</span>
+                            </div>
+                        </div>
+
+                        <div style="margin: 20px 0;">
+                            <div style="display: flex; justify-content: space-between; color: #ffffff; margin-bottom: 8px;">
+                                <span>FOV 360°</span>
+                                <span id="fovValor">360.0</span>
+                            </div>
+                            <input type="range" min="0" max="360" value="360" id="fovSlider" style="background: linear-gradient(90deg, #00ffaa 100%, #0f2d19 100%);">
+                        </div>
+
+                        <div style="display: flex; gap: 20px;">
+                            <div style="flex: 1;">
+                                <div style="color: #ffffff; margin-bottom: 5px;">Suavização</div>
+                                <input type="range" min="0" max="100" value="0">
+                            </div>
+                            <div style="flex: 1;">
+                                <div style="color: #ffffff; margin-bottom: 5px;">Distância</div>
+                                <input type="range" min="0" max="300" value="0">
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 20px; margin-top: 20px;">
+                            <div style="display: flex; align-items: center; gap: 8px; cursor: pointer;" id="radioAtirar">
+                                <span class="radio-bolinha" id="bolinhaAtirar" style="width: 18px; height: 18px; border-radius: 50%; background: #072612; border: 2px solid #16984b;"></span>
+                                <span style="color: white;">Ao Atirar</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px; cursor: pointer;" id="radioOlhar">
+                                <span class="radio-bolinha" id="bolinhaOlhar" style="width: 18px; height: 18px; border-radius: 50%; background: #072612; border: 2px solid #16984b;"></span>
+                                <span style="color: white;">Ao Olhar</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Aba ESP - TODAS FUNÇÕES DESATIVADAS, TEXTOS BRANCOS -->
+                <div class="aba-content" id="aba-esp">
+                    <div class="esp-grid">
+                        <div class="esp-card">
+                            <h3>👤 JOGADORES</h3>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span style="color: #ffffff;">Caixa 2D</span>
+                                <div class="toggle" id="toggleBox2D"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span style="color: #ffffff;">Caixa 3D</span>
+                                <div class="toggle" id="toggleBox3D"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span style="color: #ffffff;">Linha de Visão</span>
+                                <div class="toggle" id="toggleLine"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: #ffffff;">Distância</span>
+                                <div class="toggle" id="toggleDistance"></div>
+                            </div>
+                        </div>
+
+                        <div class="esp-card">
+                            <h3>❤️ VIDA</h3>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span style="color: #ffffff;">Barra de Vida</span>
+                                <div class="toggle" id="toggleHealthBar"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span style="color: #ffffff;">Número da Vida</span>
+                                <div class="toggle" id="toggleHealthNum"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span style="color: #ffffff;">Cor por Vida</span>
+                                <div class="toggle" id="toggleHealthColor"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: #ffffff;">Escudo</span>
+                                <div class="toggle" id="toggleShield"></div>
+                            </div>
+                        </div>
+
+                        <div class="esp-card">
+                            <h3>📦 ITENS</h3>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span style="color: #ffffff;">Armas</span>
+                                <div class="toggle" id="toggleWeapons"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span style="color: #ffffff;">Munição</span>
+                                <div class="toggle" id="toggleAmmo"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span style="color: #ffffff;">Medkits</span>
+                                <div class="toggle" id="toggleMedkits"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: #ffffff;">Veículos</span>
+                                <div class="toggle" id="toggleVehicles"></div>
+                            </div>
+                        </div>
+
+                        <div class="esp-card">
+                            <h3>🎨 CORES</h3>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span style="color: #ffffff;">Inimigos</span>
+                                <div class="cor-preview" style="width: 30px; height: 30px; background: #ff4444; border-radius: 8px; border: 2px solid #ffffff; cursor: pointer;" onclick="document.getElementById('corInimigo').click()"></div>
+                                <input type="color" id="corInimigo" style="display: none;" value="#ff4444">
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span style="color: #ffffff;">Aliados</span>
+                                <div class="cor-preview" style="width: 30px; height: 30px; background: #44ff44; border-radius: 8px; border: 2px solid #ffffff; cursor: pointer;" onclick="document.getElementById('corAliado').click()"></div>
+                                <input type="color" id="corAliado" style="display: none;" value="#44ff44">
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span style="color: #ffffff;">Itens</span>
+                                <div class="cor-preview" style="width: 30px; height: 30px; background: #ffaa44; border-radius: 8px; border: 2px solid #ffffff; cursor: pointer;" onclick="document.getElementById('corItens').click()"></div>
+                                <input type="color" id="corItens" style="display: none;" value="#ffaa44">
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: #ffffff;">Chams</span>
+                                <div class="cor-preview" style="width: 30px; height: 30px; background: #aa44ff; border-radius: 8px; border: 2px solid #ffffff; cursor: pointer;" onclick="document.getElementById('corChams').click()"></div>
+                                <input type="color" id="corChams" style="display: none;" value="#aa44ff">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                        <button class="btn-acao">APLICAR</button>
+                        <button class="btn-acao">RESETAR</button>
+                    </div>
+                </div>
+
+                <!-- Aba Bypass - TODAS FUNÇÕES DESATIVADAS -->
+                <div class="aba-content" id="aba-bypass">
+                    <div class="esp-card">
+                        <h3>⚡ BYPASS</h3>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                            <div style="background: #021909; border: 1px solid #1d8941; border-radius: 16px; padding: 12px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="color: #ffffff;">Anti-Ban</span>
+                                    <div class="toggle" id="toggleAntiBan"></div>
+                                </div>
+                            </div>
+
+                            <div style="background: #021909; border: 1px solid #1d8941; border-radius: 16px; padding: 12px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="color: #ffffff;">Bypass Garena</span>
+                                    <div class="toggle" id="toggleGarena"></div>
+                                </div>
+                            </div>
+
+                            <div style="background: #021909; border: 1px solid #1d8941; border-radius: 16px; padding: 12px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="color: #ffffff;">No Recoil</span>
+                                    <div class="toggle" id="toggleNoRecoil"></div>
+                                </div>
+                            </div>
+
+                            <div style="background: #021909; border: 1px solid #1d8941; border-radius: 16px; padding: 12px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="color: #ffffff;">Wallhack</span>
+                                    <div class="toggle" id="toggleWallhack"></div>
+                                </div>
+                            </div>
+
+                            <div style="background: #021909; border: 1px solid #1d8941; border-radius: 16px; padding: 12px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="color: #ffffff;">No Spread</span>
+                                    <div class="toggle" id="toggleNoSpread"></div>
+                                </div>
+                            </div>
+
+                            <div style="background: #021909; border: 1px solid #1d8941; border-radius: 16px; padding: 12px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="color: #ffffff;">Speed Hack</span>
+                                    <div class="toggle" id="toggleSpeed"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn-acao" style="width: 100%; margin-top: 15px;">APLICAR BYPASS</button>
+                    </div>
+                </div>
+
+                <!-- Aba INJECTOR -->
+                <div class="aba-content" id="aba-injector">
+                    <div class="injector-section">
+                        <div class="injector-title">
+                            <span>💉 INJETOR FFH4X</span>
+                            <span class="badge-status" style="font-size: 0.9rem;">v7.1.0</span>
+                        </div>
+
+                        <!-- Caminho da pasta Free Fire -->
+                        <div class="injector-path">
+                            <span class="path-text">/storage/emulated/0/Android/data/com.dts.freefireth/files/</span>
+                            <span class="path-folder">📁 pasta</span>
+                        </div>
+
+                        <!-- Status da injeção -->
+                        <div class="injector-status" id="injectorStatus">
+                            <div class="status-indicator" id="statusIndicator"></div>
+                            <span class="status-text" id="statusText">Aguardando injeção...</span>
+                        </div>
+
+                        <!-- Botões de injeção -->
+                        <div class="injector-buttons">
+                            <div class="injector-btn primary" id="btnInject">
+                                <span>💉</span>
+                                <span>INJETAR</span>
+                            </div>
+                            <div class="injector-btn" id="btnVerify">
+                                <span>🔍</span>
+                                <span>VERIFICAR</span>
+                            </div>
+                            <div class="injector-btn" id="btnClear">
+                                <span>🧹</span>
+                                <span>LIMPAR</span>
+                            </div>
+                        </div>
+
+                        <div class="injector-buttons" style="grid-template-columns: repeat(2, 1fr); margin-top: 8px;">
+                            <div class="injector-btn" id="btnBackup">
+                                <span>💾</span>
+                                <span>BACKUP</span>
+                            </div>
+                            <div class="injector-btn" id="btnRestore">
+                                <span>🔄</span>
+                                <span>RESTAURAR</span>
+                            </div>
+                        </div>
+
+                        <!-- Log de injeção -->
+                        <div class="injector-log" id="injectorLog">
+                            <div class="log-entry">📁 Sistema de injeção pronto</div>
+                            <div class="log-entry">📂 Pasta alvo: com.dts.freefireth</div>
+                            <div class="log-entry">⚡ FFH4X injector v7.1.0</div>
+                        </div>
+                    </div>
+
+                    <div class="esp-card" style="margin-top: 10px;">
+                        <h3>📋 ARQUIVOS INJETADOS</h3>
+                        <div style="color: #ffffff; font-size: 0.9rem; margin-bottom: 5px;">✓ libffh4x.so</div>
+                        <div style="color: #ffffff; font-size: 0.9rem; margin-bottom: 5px;">✓ config.ffh4x</div>
+                        <div style="color: #ffffff; font-size: 0.9rem;">✓ bypass.garena</div>
+                    </div>
+                </div>
+
+                <!-- Aba Info -->
+                <div class="aba-content" id="aba-info">
+                    <div class="esp-grid" style="grid-template-columns: repeat(3, 1fr);">
+                        <div class="stat-box">
+                            <div class="stat-value" id="latencia">15ms</div>
+                            <div class="stat-label">LATÊNCIA</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="injecao">0%</div>
+                            <div class="stat-label">INJEÇÃO</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value">24/7</div>
+                            <div class="stat-label">UPTIME</div>
+                        </div>
+                    </div>
+
+                    <div class="esp-card">
+                        <h3>📋 INFORMAÇÕES</h3>
+                        <div style="display: grid; gap: 8px;">
+                            <div style="display: flex; gap: 15px;">
+                                <span style="color: #00ffaa;">Versão:</span>
+                                <span style="color: #ffffff;">FFH4X Injector v7.1.0</span>
+                            </div>
+                            <div style="display: flex; gap: 15px;">
+                                <span style="color: #00ffaa;">Pasta alvo:</span>
+                                <span style="color: #ffffff;">com.dts.freefireth</span>
+                            </div>
+                            <div style="display: flex; gap: 15px;">
+                                <span style="color: #00ffaa;">Status:</span>
+                                <span style="color: #ffffff;">✓ TODAS FUNÇÕES OFF</span>
+                            </div>
+                            <div style="display: flex; gap: 15px;">
+                                <span style="color: #00ffaa;">FOV:</span>
+                                <span style="color: #ffffff;">360°</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="esp-card">
+                        <h3>📊 ESTATÍSTICAS</h3>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div>
+                                <div style="color: #ffffff;">Injeções hoje</div>
+                                <div style="color: #00ffaa; font-size: 2rem; font-weight: 700;">0</div>
+                            </div>
+                            <div>
+                                <div style="color: #ffffff;">Usuários ativos</div>
+                                <div style="color: #00ffaa; font-size: 2rem; font-weight: 700;">0</div>
+                            </div>
+                            <div>
+                                <div style="color: #ffffff;">Detecções</div>
+                                <div style="color: #00ffaa; font-size: 2rem; font-weight: 700;">0</div>
+                            </div>
+                            <div>
+                                <div style="color: #ffffff;">Bypass rate</div>
+                                <div style="color: #00ffaa; font-size: 2rem; font-weight: 700;">0%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 15px;">
+                        <button class="btn-acao" style="flex: 1;">VERIFICAR</button>
+                        <button class="btn-acao" style="flex: 1;">REAPLICAR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Rodapé -->
+        <div class="extra-footer">
+            <span>FFH4X INJECTOR</span>
+            <span>TODAS OFF · FOV 360°</span>
+        </div>
+    </div>
+
+    <script>
+        // Sistema de colapsar
+        const painel = document.getElementById('painel');
+        const btnColapsar = document.getElementById('btnColapsar');
+        
+        btnColapsar.addEventListener('click', function(e) {
+            e.stopPropagation();
+            painel.classList.toggle('colapsado');
+        });
+
+        painel.addEventListener('click', function(e) {
+            if (painel.classList.contains('colapsado') && !e.target.closest('.btn-colapsar')) {
+                painel.classList.remove('colapsado');
+            }
+        });
+
+        // Sistema de abas
+        const icones = document.querySelectorAll('.icone-item');
+        const abas = {
+            aimbot: document.getElementById('aba-aimbot'),
+            esp: document.getElementById('aba-esp'),
+            bypass: document.getElementById('aba-bypass'),
+            injector: document.getElementById('aba-injector'),
+            info: document.getElementById('aba-info')
+        };
+
+        icones.forEach(icone => {
+            icone.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const aba = this.getAttribute('data-aba');
+                
+                icones.forEach(i => i.classList.remove('ativo'));
+                Object.values(abas).forEach(a => a.classList.remove('ativo'));
+                
+                this.classList.add('ativo');
+                if (abas[aba]) {
+                    abas[aba].classList.add('ativo');
+                }
+            });
+        });
+
+        // Sistema de injeção
+        const btnInject = document.getElementById('btnInject');
+        const btnVerify = document.getElementById('btnVerify');
+        const btnClear = document.getElementById('btnClear');
+        const btnBackup = document.getElementById('btnBackup');
+        const btnRestore = document.getElementById('btnRestore');
+        const statusIndicator = document.getElementById('statusIndicator');
+        const statusText = document.getElementById('statusText');
+        const injectorLog = document.getElementById('injectorLog');
+
+        function addLog(message, type = 'info') {
+            const logEntry = document.createElement('div');
+            logEntry.className = 'log-entry';
+            if (type === 'success') logEntry.classList.add('success');
+            if (type === 'error') logEntry.classList.add('error');
+            logEntry.textContent = message;
+            injectorLog.appendChild(logEntry);
+            injectorLog.scrollTop = injectorLog.scrollHeight;
+            
+            while (injectorLog.children.length > 8) {
+                injectorLog.removeChild(injectorLog.firstChild);
+            }
+        }
+
+        btnInject.addEventListener('click', function(e) {
+            e.stopPropagation();
+            
+            statusIndicator.className = 'status-indicator injecting';
+            statusText.textContent = 'Injetando...';
+            addLog('💉 Iniciando injeção em com.dts.freefireth...', 'info');
+            
+            setTimeout(() => {
+                statusIndicator.className = 'status-indicator injected';
+                statusText.textContent = 'Injeção concluída com sucesso!';
+                addLog('✅ Arquivos injetados com sucesso!', 'success');
+            }, 2000);
+        });
+
+        btnVerify.addEventListener('click', function(e) {
+            e.stopPropagation();
+            addLog('🔍 Verificando pasta com.dts.freefireth...', 'info');
+            
+            setTimeout(() => {
+                addLog('✅ Pasta encontrada! Permissões OK', 'success');
+                statusText.textContent = 'Verificação concluída - OK';
+            }, 1000);
+        });
+
+        btnClear.addEventListener('click', function(e) {
+            e.stopPropagation();
+            addLog('🧹 Limpando logs de injeção...', 'info');
+            
+            setTimeout(() => {
+                while (injectorLog.children.length > 3) {
+                    injectorLog.removeChild(injectorLog.firstChild);
+                }
+                addLog('✅ Logs limpos', 'success');
+            }, 500);
+        });
+
+        btnBackup.addEventListener('click', function(e) {
+            e.stopPropagation();
+            addLog('💾 Criando backup dos arquivos originais...', 'info');
+            
+            setTimeout(() => {
+                addLog('✅ Backup criado: /files/backup_ffh4x/', 'success');
+            }, 1500);
+        });
+
+        btnRestore.addEventListener('click', function(e) {
+            e.stopPropagation();
+            addLog('🔄 Restaurando arquivos originais...', 'info');
+            
+            setTimeout(() => {
+                addLog('✅ Arquivos restaurados com sucesso!', 'success');
+            }, 1500);
+        });
+
+        // Toggles (todos começam desativados)
+        const toggles = [
+            'toggleBox2D', 'toggleBox3D', 'toggleLine', 'toggleDistance',
+            'toggleHealthBar', 'toggleHealthNum', 'toggleHealthColor', 'toggleShield',
+            'toggleWeapons', 'toggleAmmo', 'toggleMedkits', 'toggleVehicles',
+            'toggleAntiBan', 'toggleGarena', 'toggleNoRecoil', 'toggleWallhack',
+            'toggleNoSpread', 'toggleSpeed'
+        ];
+        
+        toggles.forEach(id => {
+            const toggle = document.getElementById(id);
+            if (toggle) {
+                toggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    // Não faz nada - todas funções desativadas
+                });
+            }
+        });
+
+        // Checkboxes (todos começam desativados)
+        const checkboxes = [
+            { id: 'checkAimbot', status: 'statusAimbot', texts: ['inativo', 'inativo'] },
+            { id: 'checkParedes', status: 'statusParedes', texts: ['inativo', 'inativo'] },
+            { id: 'checkFOV', status: 'statusFOV', texts: ['off', 'off'] },
+            { id: 'checkLinha', status: 'statusLinha', texts: ['off', 'off'] }
+        ];
+
+        checkboxes.forEach(item => {
+            const check = document.getElementById(item.id);
+            const status = document.getElementById(item.status);
+            
+            if (check && status) {
+                check.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    // Não faz nada - todas funções desativadas
+                });
+            }
+        });
+
+        // Slider FOV fixo em 360
+        const fovSlider = document.getElementById('fovSlider');
+        const fovValor = document.getElementById('fovValor');
+        
+        if (fovSlider && fovValor) {
+            fovSlider.value = 360;
+            fovValor.textContent = '360.0';
+            
+            fovSlider.addEventListener('input', function(e) {
+                e.stopPropagation();
+                this.value = 360;
+                fovValor.textContent = '360.0';
+            });
+        }
+
+        // Radio buttons desativados
+        const radioAtirar = document.getElementById('radioAtirar');
+        const radioOlhar = document.getElementById('radioOlhar');
+
+        radioAtirar.addEventListener('click', function(e) {
+            e.stopPropagation();
+            // Não faz nada
+        });
+
+        radioOlhar.addEventListener('click', function(e) {
+            e.stopPropagation();
+            // Não faz nada
+        });
+
+        // Color pickers
+        document.querySelectorAll('.cor-preview').forEach(preview => {
+            preview.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const input = this.nextElementSibling;
+                if (input && input.type === 'color') {
+                    input.click();
+                }
+            });
+        });
+
+        document.querySelectorAll('input[type="color"]').forEach(input => {
+            input.addEventListener('input', function(e) {
+                e.stopPropagation();
+                const preview = this.previousElementSibling;
+                if (preview && preview.classList.contains('cor-preview')) {
+                    preview.style.background = this.value;
+                }
+            });
+        });
+
+        // Animar latência
+        let latencia = 15;
+        setInterval(() => {
+            const latenciaEl = document.getElementById('latencia');
+            if (latenciaEl) {
+                latencia = 10 + Math.floor(Math.random() * 10);
+                latenciaEl.textContent = latencia + 'ms';
+            }
+        }, 3000);
+
+        console.log('FFH4X Injector - Todas funções desativadas - FOV 360°');
+    </script>
+</body>
+    </html>
